@@ -35,5 +35,18 @@ function App() {
     </div>
   )
 }
+const contact = () => {
+  if (supported) {
+      getContacts().then(r => console.log(r))
+  }
+}
 
+async function getContacts() {
+  try {
+      const contacts = await navigator.contacts.select(props, opts);
+      setTestContact([...testContact, ...contacts])
+  } catch (ex) {
+      // Handle any errors here.
+  }
+}
 export default App;
