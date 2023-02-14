@@ -33,20 +33,21 @@ function App() {
       {ToDoList.map(e => <div>{e}</div>)}
       
     </div>
-  )
-}
-const contact = () => {
-  if (supported) {
-      getContacts().then(r => console.log(r))
+  );
+  const contact = () => {
+    if (supported) {
+        getContacts().then(r => console.log(r))
+    }
+  }
+  
+  async function getContacts() {
+    try {
+        const contacts = await navigator.contacts.select(props, opts);
+        setTestContact([...testContact, ...contacts])
+    } catch (ex) {
+        // Handle any errors here.
+    }
   }
 }
 
-async function getContacts() {
-  try {
-      const contacts = await navigator.contacts.select(props, opts);
-      setTestContact([...testContact, ...contacts])
-  } catch (ex) {
-      // Handle any errors here.
-  }
-}
 export default App;
