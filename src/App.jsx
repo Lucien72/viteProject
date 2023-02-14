@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import './App.css'
 
+const props = ["name", "email", "tel",];
+const opts = { multiple: true };
+
 function App() {
   const [newTodo, setNewTodo] = useState('')
   const [ToDoList] = useState([])
@@ -14,6 +17,21 @@ function App() {
     setNewTodo('')
   }
 
+  const contact = () => {
+    if (supported) {
+        getContacts().then(r => console.log(r))
+    }
+  }
+  
+  async function getContacts() {
+    try {
+        const contacts = await navigator.contacts.select(props, opts);
+        setTestContact([...testContact, ...contacts])
+    } catch (ex) {
+        // Handle any errors here.
+    }
+  }
+  
   return (
     <div>
       <h1>To Do List</h1>
@@ -31,23 +49,9 @@ function App() {
       </div>
       <button onClick={() => insert()}>Ajouter</button>
       {ToDoList.map(e => <div>{e}</div>)}
-      
+      <button onClick={() => contact()}>Contact</button>      
     </div>
-  );
-  const contact = () => {
-    if (supported) {
-        getContacts().then(r => console.log(r))
-    }
-  }
-  
-  async function getContacts() {
-    try {
-        const contacts = await navigator.contacts.select(props, opts);
-        setTestContact([...testContact, ...contacts])
-    } catch (ex) {
-        // Handle any errors here.
-    }
-  }
+  )
 }
 
 export default App;
